@@ -1,28 +1,38 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 
-namespace MyApp.Data
+using MyApp.Core.Data;
+using MyApp.Core.Entities;
+using MyApp.Core.Interfaces;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MyApp.Core.Services
 {
     public class GameService : IGameService
     {
-        private readonly DataContext _context;
+        private readonly MyAppDataContext _context;
         private readonly NavigationManager _navigation;
 
-        public GameService(DataContext context, NavigationManager navigation)
+        public GameService(MyAppDataContext context, NavigationManager navigation)
         {
             _context = context;
             _navigation = navigation;
         }
-        public List<Games> Games { get; set; } = new List<Games>();
+        public List<Game> Games { get; set; } = new List<Game>();
 
-        public async Task AddGame(Games game)
+        public async Task AddGame(Game game)
         {
             _context.Games.Add(game);
             await _context.SaveChangesAsync();
             _navigation.NavigateTo("videogames");
         }
 
-        public async Task<Games> GetSingleGame(int id)
+        public async Task<Game> GetSingleGame(int id)
         {
             var game = await _context.Games.FindAsync(id);
             if (game == null)
@@ -46,7 +56,7 @@ namespace MyApp.Data
             _navigation.NavigateTo("videogames");
         }
 
-        public async Task UpdateGame(Games game, int id)
+        public async Task UpdateGame(Game game, int id)
         {
             var DbGame = await _context.Games.FindAsync(id);
             if (DbGame == null)

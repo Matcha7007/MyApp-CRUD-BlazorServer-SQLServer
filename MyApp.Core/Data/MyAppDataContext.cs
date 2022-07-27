@@ -1,27 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MyApp.Data
+using MyApp.Core.Entities;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MyApp.Core.Data
 {
-    public class DataContext : DbContext
+    public class MyAppDataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public MyAppDataContext(DbContextOptions<MyAppDataContext> options) : base(options)
         {
-            
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Games>().HasData(
-                new Games
+            modelBuilder.Entity<Game>().HasData(
+                new Game
                 {
                     Id = 1,
                     Name = "Dota 2",
                     Developer = "Valve",
                     Released = new DateTime(2013, 07, 09),
                 },
-                new Games
+                new Game
                 {
                     Id = 2,
                     Name = "Residen Evil Village",
@@ -31,6 +39,6 @@ namespace MyApp.Data
             );
         }
 
-        public DbSet<Games> Games => Set<Games>();
+        public DbSet<Game> Games => Set<Game>();
     }
 }

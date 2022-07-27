@@ -2,20 +2,25 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
 
-using MyApp.Data;
+using MyApp.Core.Data;
+using MyApp.Core.Interfaces;
+using MyApp.Core.Services;
+using MyApp.Extensions;
+//using MyApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddApplicationServices();
+//builder.Services.AddSingleton<WeatherForecastService>();
 
-builder.Services.AddDbContext<DataContext>(options =>
+builder.Services.AddDbContext<MyAppDataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
 });
-builder.Services.AddScoped<IGameService, GameService>();
+//builder.Services.AddScoped<IGameService, GameService>();
 
 var app = builder.Build();
 
