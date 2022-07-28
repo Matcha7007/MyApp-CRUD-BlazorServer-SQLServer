@@ -44,6 +44,10 @@ namespace MyApp.Core.Data
         public DbSet<BranchBank> BranchBanks => Set<BranchBank>();
         public DbSet<Employee> Employees => Set<Employee>();
         public DbSet<EmployeeBankBranch> EmployeeBankBranches => Set<EmployeeBankBranch>();
-        //public DbSet<Sales> Saleses => Set<Sales>();
+        public DbSet<Product> Products => Set<Product>();
+        public DbSet<ProductType> ProductTypes => Set<ProductType>();
+        public DbSet<Customer> Customers => Set<Customer>();
+        public DbSet<CustomerProductType> CustomerProductTypes => Set<CustomerProductType>();
+        public DbSet<GenerateUrl> GenerateUrls => Set<GenerateUrl>();
     }
 }

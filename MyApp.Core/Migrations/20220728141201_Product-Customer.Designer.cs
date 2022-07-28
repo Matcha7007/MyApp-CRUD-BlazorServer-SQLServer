@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyApp.Core.Data;
 
@@ -11,9 +12,10 @@ using MyApp.Core.Data;
 namespace MyApp.Core.Migrations
 {
     [DbContext(typeof(MyAppDataContext))]
-    partial class MyAppDataContextModelSnapshot : ModelSnapshot
+    [Migration("20220728141201_Product-Customer")]
+    partial class ProductCustomer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -158,9 +160,6 @@ namespace MyApp.Core.Migrations
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
@@ -177,8 +176,6 @@ namespace MyApp.Core.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerId");
-
-                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("ProductTypeId");
 
@@ -336,45 +333,6 @@ namespace MyApp.Core.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MyApp.Core.Entities.GenerateUrl", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CustomerProductTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CustomerProductTypeId");
-
-                    b.ToTable("GenerateUrls");
-                });
-
             modelBuilder.Entity("MyApp.Core.Entities.Product", b =>
                 {
                     b.Property<int>("Id")
@@ -467,12 +425,6 @@ namespace MyApp.Core.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MyApp.Core.Entities.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MyApp.Core.Entities.ProductType", "ProductType")
                         .WithMany()
                         .HasForeignKey("ProductTypeId")
@@ -480,8 +432,6 @@ namespace MyApp.Core.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
-
-                    b.Navigation("Employee");
 
                     b.Navigation("ProductType");
                 });
@@ -503,17 +453,6 @@ namespace MyApp.Core.Migrations
                     b.Navigation("BranchBank");
 
                     b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("MyApp.Core.Entities.GenerateUrl", b =>
-                {
-                    b.HasOne("MyApp.Core.Entities.CustomerProductType", "CustomerProductType")
-                        .WithMany()
-                        .HasForeignKey("CustomerProductTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CustomerProductType");
                 });
 
             modelBuilder.Entity("MyApp.Core.Entities.ProductType", b =>

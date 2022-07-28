@@ -1,0 +1,45 @@
+﻿@page "/url-repository"
+@inject IURLRepoService URLRepoService
+
+<h3 class="text-primary">RM Search</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Sales Code</th>
+            <th>Sales Name</th>
+            <th>NIP</th>
+            <th>Product</th>
+            <th>Type</th>
+            <th>Nama Nasabah</th>
+            <th>Created Data</th>
+            <th>Url</th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var data in URLRepoService.GetAll())
+        {
+            <tr>
+                <th>@data.SalesCode</th>
+                <th>@data.SalesName</th>
+                <th>@data.NIP</th>
+                <th>@data.ProductName</th>
+                <th>@data.ProductType</th>
+                <th>@data.CustomerName</th>
+                <th>@data.CreatedAt</th>
+                <th>@data.Url</th>
+            </tr>    
+        }
+    </tbody>
+</table>
+@*<button class="btn btn-primary" @onclick="CreateNewGame">Create New Game</button>*@
+
+@code {
+    //public List<EmployeeBankBranch> data = RMService.GetAll();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        URLRepoService.GetAll();
+    }
+
+
+}
