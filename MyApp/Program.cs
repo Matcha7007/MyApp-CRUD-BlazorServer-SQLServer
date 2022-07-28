@@ -1,3 +1,5 @@
+using BlazorStrap;
+
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddApplicationServices();
+//builder.Services.AddBlazorStrap();
 //builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddDbContext<MyAppDataContext>(options =>

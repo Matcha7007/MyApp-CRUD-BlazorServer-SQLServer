@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace MyApp.Core.Migrations
 {
-    public partial class Initialized : Migration
+    public partial class Games : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

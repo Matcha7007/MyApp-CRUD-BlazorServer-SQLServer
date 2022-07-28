@@ -1,0 +1,50 @@
+﻿@page "/rm-search"
+@*@inject IGameService GameService*@
+@inject IRMService RMService
+@inject NavigationManager NavigationManager
+
+
+<h3 class="text-primary">RM Search</h3>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Bank</th>
+            <th>Cabang</th>
+            <th>Sales Code</th>
+            <th>Sales Name</th>
+            <th>NIP</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+       @foreach (var data in RMService.GetAll())
+        {
+            <tr>
+                <th>@data.BankName</th>
+                <th>@data.BranchName</th>
+                <th>@data.SalesCode</th>
+                <th>@data.SalesName</th>
+                <th>@data.NIP</th>
+                <th>@data.Phone</th>
+                <th>@data.Email</th>
+                <th>
+                    <a href="">Send Link</a>
+                </th>
+            </tr>    
+        }
+    </tbody>
+</table>
+@*<button class="btn btn-primary" @onclick="CreateNewGame">Create New Game</button>*@
+
+@code {
+    //public List<EmployeeBankBranch> data = RMService.GetAll();
+    
+    protected override async Task OnInitializedAsync()
+    {
+        RMService.GetAll();
+    }
+
+
+}

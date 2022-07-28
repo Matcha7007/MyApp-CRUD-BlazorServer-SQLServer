@@ -10,6 +10,7 @@ namespace MyApp.Extensions
         public static IServiceCollection AddApplicationServices(this IServiceCollection services) 
         {
             services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IRMService, RMService>();
             //services.Configure<ApiBehaviorOptions>(options =>
             //{
             //    options.InvalidModelStateResponseFactory = actionContext =>
