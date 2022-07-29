@@ -351,7 +351,7 @@ namespace MyApp.Core.Migrations
                     b.Property<DateTime?>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerProductTypeId")
+                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsActive")
@@ -364,13 +364,22 @@ namespace MyApp.Core.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductTypeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Url")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerProductTypeId");
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductTypeId");
 
                     b.ToTable("GenerateUrls");
                 });
@@ -434,16 +443,10 @@ namespace MyApp.Core.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<string>("TypeName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductTypes");
                 });
@@ -507,24 +510,29 @@ namespace MyApp.Core.Migrations
 
             modelBuilder.Entity("MyApp.Core.Entities.GenerateUrl", b =>
                 {
-                    b.HasOne("MyApp.Core.Entities.CustomerProductType", "CustomerProductType")
+                    b.HasOne("MyApp.Core.Entities.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerProductTypeId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("CustomerProductType");
-                });
-
-            modelBuilder.Entity("MyApp.Core.Entities.ProductType", b =>
-                {
                     b.HasOne("MyApp.Core.Entities.Product", "Product")
-                        .WithMany("ProductType")
+                        .WithMany("GenerateUrls")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MyApp.Core.Entities.ProductType", "ProductType")
+                        .WithMany()
+                        .HasForeignKey("ProductTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
                     b.Navigation("Product");
+
+                    b.Navigation("ProductType");
                 });
 
             modelBuilder.Entity("MyApp.Core.Entities.Bank", b =>
@@ -534,7 +542,7 @@ namespace MyApp.Core.Migrations
 
             modelBuilder.Entity("MyApp.Core.Entities.Product", b =>
                 {
-                    b.Navigation("ProductType");
+                    b.Navigation("GenerateUrls");
                 });
 #pragma warning restore 612, 618
         }

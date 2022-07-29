@@ -8,8 +8,12 @@ namespace MyApp.Core.Entities
 {
     public class GenerateUrl : BaseEntity
     {
-        public int CustomerProductTypeId { get; set; }
-        public virtual CustomerProductType CustomerProductType { get; set; }
-        public string Url { get; set; }
+        public int ProductId { get; set; }
+        public virtual Product? Product { get; set; }
+        public int ProductTypeId { get; set; }
+        public virtual ProductType? ProductType { get; set; }
+        public int CustomerId { get; set; }
+        public virtual Customer? Customer { get; set; }
+        public string? Url { get; set; }
     }
 }

@@ -29,7 +29,14 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
-@*    <script src="_content/BlazorStrap/popper.min.js"></script>
-    <script src="_content/BlazorStrap/blazorstrap.js"></script>*@
+    <script>
+        function copyClipboard() {
+            var copyText = document.getElementById("copyable");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(copyText.value);
+            alert("Copied");
+        }
+    </script>
 </body>
 </html>

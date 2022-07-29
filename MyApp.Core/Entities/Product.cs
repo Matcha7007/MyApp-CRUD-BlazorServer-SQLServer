@@ -11,6 +11,6 @@ namespace MyApp.Core.Entities
     {
         [MaxLength(200)]
         public string? ProductName { get; set; }
-        public List<ProductType> ProductType { get; set; }
+        public List<GenerateUrl>? GenerateUrls { get; set; }
     }
 }

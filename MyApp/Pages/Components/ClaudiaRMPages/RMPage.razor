@@ -1,7 +1,67 @@
-﻿@page "/claudia-rm/rm-page"
+﻿@page "/rm-static-page"
+
+@inject IProductService ProductService
+@inject IRequestURL RequestURL
 
 <h3>RM Static Page</h3>
+<div class="col-4">
+    <EditForm Model="@requestUrl" OnSubmit="HandleSubmit">
+        <InputSelect class="form-control mb-3" @bind-Value="@requestUrl.ProductId" id="ProductId">
+            <option value=""></option>
+            @foreach (var item in ProductService.Products)
+            {
+                  <option value="@item.Id">
+                      @item.ProductName
+                  </option>
+            }
+        </InputSelect>
+        <InputRadioGroup @bind-Value="@requestUrl.ProductTypeId" id="ProductTypeId">
+            @foreach (var item in ProductService.ProductTypes)
+            {
+                <div class="form-check form-check-inline mb-3">
+                    <InputRadio class="form-check-input" Value="@item.Id"/>
+                    <label class="form-check-label">@item.TypeName</label>
+                </div>
+            }
+        </InputRadioGroup>
+        <div class="input-group mb-3">
+            <InputSelect class="form-control" @bind-Value="@requestUrl.CustomerId" id="CustomerId" aria-describedby="btngenerate">
+                <option value=""></option>
+                @foreach (var item in ProductService.Customers)
+                {
+                      <option value="@item.Id">
+                          @item.CustomerName
+                      </option>
+                }
+            </InputSelect>
+            <button class="btn btn-outline-secondary" type="submit" id="btngenerate">
+                Generate Link
+            </button>
+        </div>
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" id="copyable" @bind-value="@url" aria-describedby="button-addon2" disabled>
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="copyClipboard()">
+                <span class="oi oi-clipboard" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+    </EditForm>
+</div>
+
 
 @code {
+    RequestURLDto requestUrl = new RequestURLDto();
+    string url = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        await ProductService.LoadProduct();
+        await ProductService.LoadProductTypes();
+        await ProductService.LoadCustomers();
+    }
 
+    async Task HandleSubmit()
+    {
+        url = await RequestURL.AddRequestUrl(requestUrl);
+    }
 }
