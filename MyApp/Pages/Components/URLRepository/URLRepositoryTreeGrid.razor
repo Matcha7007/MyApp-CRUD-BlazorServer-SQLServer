@@ -1,0 +1,94 @@
+﻿@page "/convert-tree-grid"
+@using ClosedXML.Excel
+
+@inject IURLRepoService URLRepoService
+
+<h3 class="text-primary">RM Search</h3>
+<div class="mb-3 ">
+    <button class="btn btn-outline-success" @onclick="ConvertExcel">Convert to Excel</button>
+</div>
+
+<RadzenGrid AllowFiltering="true" AllowPaging="true" PageSize="5" AllowSorting="true" Data="@dataUrl" TItem="URLRepoServiceDto"
+    FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive" >
+    <Columns>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="SalesCode" Title="Sales Code"></RadzenGridColumn>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="SalesName" Title="Sales Name"></RadzenGridColumn>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="NIP" Title="NIP"></RadzenGridColumn>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="ProductName" Title="Product"></RadzenGridColumn>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="ProductType" Title="Type"></RadzenGridColumn>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="CustomerName" Title="Nama Nasabah"></RadzenGridColumn>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="CreatedAt" Title="Created Data">
+            <Template Context="data">
+                @String.Format("{0:d}", data.CreatedAt)
+            </Template>
+        </RadzenGridColumn>
+        <RadzenGridColumn TItem="URLRepoServiceDto" Property="Url" Title="Url"></RadzenGridColumn>
+    </Columns>
+</RadzenGrid>
+
+@code {
+    public List<URLRepoServiceDto> TreeData = new List<URLRepoServiceDto>();
+    IEnumerable<URLRepoServiceDto> dataUrl;
+    RadzenDataGrid<URLRepoServiceDto> contactsGrid;
+
+    protected override async Task OnInitializedAsync()
+    {
+        dataUrl = await Task.Run(() => URLRepoService.UrlList());
+    }
+
+    void ConvertExcel()
+    {
+        var wb = new XLWorkbook();
+        var fileFolder = "C:/Test";
+        var date = DateTime.Now.ToString("dd-MM-yyyy mm");
+
+
+        if (!Directory.Exists(fileFolder))
+            Directory.CreateDirectory(fileFolder);
+
+        foreach (var item in URLRepoService.GetAll())
+        {
+            TreeData.Add(new URLRepoServiceDto()
+            {
+                SalesCode = item.SalesCode,
+                SalesName = item.SalesName,
+                NIP = item.NIP,
+                ProductName = item.ProductName,
+                ProductType = item.ProductType,
+                CustomerName = item.CustomerName,
+                CreatedAt = item.CreatedAt,
+                Url = item.Url
+            });
+        }
+
+        wb.Properties.Author = "System";
+        wb.Properties.Title = "URL Repository";
+        wb.Properties.Subject = "the Subject";
+
+        var ws = wb.Worksheets.Add("Url Repository");
+        ws.Cell(1, 1).Value = "Sales Code";
+        ws.Cell(1, 2).Value = "Sales Name";
+        ws.Cell(1, 3).Value = "NIP";
+        ws.Cell(1, 4).Value = "Product";
+        ws.Cell(1, 5).Value = "Type";
+        ws.Cell(1, 6).Value = "Nama Nasabah";
+        ws.Cell(1, 7).Value = "Created Data";
+        ws.Cell(1, 8).Value = "Url";
+  
+        for (int row = 0; row < TreeData.Count(); row++)
+        {
+                ws.Cell(row + 2, 1).Value = TreeData[row].SalesCode;
+                ws.Cell(row + 2, 2).Value = TreeData[row].SalesName;
+                ws.Cell(row + 2, 3).Value = TreeData[row].NIP;
+                ws.Cell(row + 2, 4).Value = TreeData[row].ProductName;
+                ws.Cell(row + 2, 5).Value = TreeData[row].ProductType;
+                ws.Cell(row + 2, 6).Value = TreeData[row].CustomerName;
+                ws.Cell(row + 2, 7).Value = TreeData[row].CreatedAt;
+                ws.Cell(row + 2, 8).Value = TreeData[row].Url;
+        }
+  
+        //MemoryStream XLSStream = new();
+        wb.SaveAs(fileFolder+"/Url_Repository_"+date+".xlsx");
+        
+    }
+}

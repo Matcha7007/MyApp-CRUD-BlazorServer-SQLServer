@@ -44,6 +44,46 @@ namespace MyApp.Core.Services
                        };
             return data;
         }
+
+        public async Task<List<URLRepoServiceDto>> UrlList()
+        {
+            var data = from c in _context.Customers.AsQueryable()
+                       join cp in _context.CustomerProductTypes.AsQueryable() on c.Id equals cp.CustomerId
+                       join pt in _context.ProductTypes.AsQueryable() on cp.ProductTypeId equals pt.Id
+                       join e in _context.Employees.AsQueryable() on cp.EmployeeId equals e.Id
+                       join gu in _context.GenerateUrls.AsQueryable() on c.Id equals gu.CustomerId
+                       join p in _context.Products.AsQueryable() on gu.ProductId equals p.Id
+                       select new URLRepoServiceDto()
+                       {
+                           SalesCode = e.SalesCode,
+                           SalesName = e.SalesName,
+                           NIP = e.NIP,
+                           ProductName = p.ProductName,
+                           ProductType = pt.TypeName,
+                           CustomerName = c.CustomerName,
+                           CreatedAt = gu.CreatedOn.ToString(),
+                           Url = gu.Url
+                       };
+
+            List<URLRepoServiceDto> dataUrl = new List<URLRepoServiceDto>();
+
+            foreach (var item in data)
+            {
+                dataUrl.Add(new URLRepoServiceDto()
+                {
+                    SalesCode=item.SalesCode,
+                    SalesName=item.SalesName,
+                    NIP=item.NIP,
+                    ProductName=item.ProductName,
+                    ProductType=item.ProductType,
+                    CustomerName=item.CustomerName,
+                    CreatedAt=item.CreatedAt,
+                    Url=item.Url
+                });
+            }
+            //return await Task.FromResult(dataUrl);
+            return dataUrl;
+        }
     }
 }
 

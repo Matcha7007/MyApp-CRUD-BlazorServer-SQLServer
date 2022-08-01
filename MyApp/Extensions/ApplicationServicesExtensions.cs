@@ -2,6 +2,7 @@
 
 using MyApp.Core.Interfaces;
 using MyApp.Core.Services;
+using Radzen;
 
 namespace MyApp.Extensions
 {
@@ -14,6 +15,10 @@ namespace MyApp.Extensions
             services.AddScoped<IURLRepoService, URLRepoService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IRequestURL, RequestURL>();
+            services.AddScoped<DialogService>();
+            services.AddScoped<NotificationService>();
+            services.AddScoped<TooltipService>();
+            services.AddScoped<ContextMenuService>();
             //services.Configure<ApiBehaviorOptions>(options =>
             //{
             //    options.InvalidModelStateResponseFactory = actionContext =>

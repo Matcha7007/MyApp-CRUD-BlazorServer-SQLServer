@@ -11,5 +11,6 @@ namespace MyApp.Core.Interfaces
     public interface IURLRepoService
     {
         IEnumerable<URLRepoServiceDto> GetAll();
+        Task<List<URLRepoServiceDto>> UrlList();
     }
 }
