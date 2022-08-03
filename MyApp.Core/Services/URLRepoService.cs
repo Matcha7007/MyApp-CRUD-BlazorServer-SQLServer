@@ -81,8 +81,8 @@ namespace MyApp.Core.Services
                     Url=item.Url
                 });
             }
-            //return await Task.FromResult(dataUrl);
-            return dataUrl;
+            return await Task.FromResult(dataUrl);
+            //return dataUrl;
         }
     }
 }

@@ -12,6 +12,6 @@ namespace MyApp.Core.Entities
         [MaxLength(200)]
         public string? BranchName { get; set; }
         public int BankId { get; set; }
-        public virtual Bank Bank { get; set; }
+        public virtual Bank? Bank { get; set; }
     }
 }

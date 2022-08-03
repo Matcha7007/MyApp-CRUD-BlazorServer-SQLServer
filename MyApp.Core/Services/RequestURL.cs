@@ -55,6 +55,7 @@ namespace MyApp.Core.Services
 
             _context.GenerateUrls.Add(data);
             await _context.SaveChangesAsync();
+            //_navigation.NavigateTo("/");
             return urlRandom;
         }
     }

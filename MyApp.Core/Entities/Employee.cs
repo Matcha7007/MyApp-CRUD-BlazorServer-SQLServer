@@ -10,14 +10,14 @@ namespace MyApp.Core.Entities
     public class Employee : BaseEntity
     {
         [MaxLength(10)]
-        public string NIP { get; set; }
+        public string? NIP { get; set; }
         [MaxLength(13)]
         public string? Phone { get; set; }
         [MaxLength(100)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
         [MaxLength(10)]
-        public string SalesCode { get; set; }
+        public string? SalesCode { get; set; }
         [MaxLength(100)]
-        public string SalesName { get; set; }
+        public string? SalesName { get; set; }
     }
 }
